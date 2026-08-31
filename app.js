@@ -7,242 +7,54 @@ const APP_CONFIG = {
   firebase: null
 };
 
+const photo=(query,lock)=>`https://loremflickr.com/720/520/${query}?lock=${lock}`;
 const gifts = [
-  {id:'diapers-rn',name:'Pañales RN',category:'Pañales',price:40,emoji:'🧷'},
-  {id:'diapers-s',name:'Pañales talla P/S',category:'Pañales',price:50,emoji:'🧷'},
-  {id:'diapers-m',name:'Pañales talla M',category:'Pañales',price:60,emoji:'🧷'},
-  {id:'wipes',name:'Toallitas húmedas',category:'Higiene',price:25,emoji:'🫧'},
-  {id:'cream',name:'Crema para pañal',category:'Higiene',price:25,emoji:'🧴'},
-  {id:'body-03',name:'Set de bodys 0–3 meses',category:'Ropa',price:55,emoji:'👕'},
-  {id:'body-36',name:'Set de bodys 3–6 meses',category:'Ropa',price:55,emoji:'👕'},
-  {id:'pajamas',name:'Pijamas enterizos',category:'Ropa',price:45,emoji:'🌙'},
-  {id:'bibs',name:'Baberos',category:'Alimentación',price:30,emoji:'🍼'},
-  {id:'hooded-towels',name:'Toallas con capucha',category:'Baño',price:45,emoji:'🛁'},
-  {id:'baby-bath',name:'Bañera para bebé',category:'Baño',price:95,emoji:'🛁'},
-  {id:'grooming-kit',name:'Kit de aseo',category:'Higiene',price:60,emoji:'🧼'},
-  {id:'thermometer',name:'Termómetro digital',category:'Salud',price:45,emoji:'🌡️'},
-  {id:'mattress-protector',name:'Protector de colchón',category:'Sueño',price:40,emoji:'🛏️'},
-  {id:'crib-sheets',name:'Juego de sábanas para cuna',category:'Sueño',price:50,emoji:'☁️'},
-  {id:'muslins',name:'Muselinas / mantitas',category:'Sueño',price:45,emoji:'🧸'},
-  {id:'diaper-bag',name:'Mochila maternal',category:'Paseo',price:120,emoji:'🎒'},
-  {id:'changing-mat',name:'Cambiador portátil',category:'Paseo',price:55,emoji:'👶'},
-  {id:'teethers',name:'Mordedores',category:'Juguetes',price:30,emoji:'🦷'},
-  {id:'books',name:'Libritos para bebé',category:'Juguetes',price:35,emoji:'📚'},
-  {id:'activity-gym',name:'Gimnasio de actividades',category:'Juguetes',price:140,emoji:'🧸'}
+  {id:'diapers-rn',name:'Pañales RN',category:'Pañales',price:40,emoji:'🧷',image:photo('baby,diapers',1)},
+  {id:'diapers-s',name:'Pañales talla P/S',category:'Pañales',price:50,emoji:'🧷',image:photo('diapers,baby',2)},
+  {id:'diapers-m',name:'Pañales talla M',category:'Pañales',price:60,emoji:'🧷',image:photo('baby,nappy',3)},
+  {id:'wipes',name:'Toallitas húmedas',category:'Higiene',price:25,emoji:'🫧',image:photo('baby,wipes',4)},
+  {id:'cream',name:'Crema para pañal',category:'Higiene',price:25,emoji:'🧴',image:photo('baby,skincare',5)},
+  {id:'body-03',name:'Set de bodys 0–3 meses',category:'Ropa',price:55,emoji:'👕',image:photo('baby,clothes',6)},
+  {id:'body-36',name:'Set de bodys 3–6 meses',category:'Ropa',price:55,emoji:'👕',image:photo('newborn,clothing',7)},
+  {id:'pajamas',name:'Pijamas enterizos',category:'Ropa',price:45,emoji:'🌙',image:photo('baby,pajamas',8)},
+  {id:'bibs',name:'Baberos',category:'Alimentación',price:30,emoji:'🍼',image:photo('baby,bib',9)},
+  {id:'hooded-towels',name:'Toallas con capucha',category:'Baño',price:45,emoji:'🛁',image:photo('baby,towel',10)},
+  {id:'baby-bath',name:'Bañera para bebé',category:'Baño',price:95,emoji:'🛁',image:photo('baby,bath',11)},
+  {id:'grooming-kit',name:'Kit de aseo',category:'Higiene',price:60,emoji:'🧼',image:photo('baby,grooming',12)},
+  {id:'thermometer',name:'Termómetro digital',category:'Salud',price:45,emoji:'🌡️',image:photo('digital,thermometer',13)},
+  {id:'mattress-protector',name:'Protector de colchón',category:'Sueño',price:40,emoji:'🛏️',image:photo('baby,crib,mattress',14)},
+  {id:'crib-sheets',name:'Juego de sábanas para cuna',category:'Sueño',price:50,emoji:'☁️',image:photo('baby,crib,bedding',15)},
+  {id:'muslins',name:'Muselinas / mantitas',category:'Sueño',price:45,emoji:'🧸',image:photo('baby,blanket',16)},
+  {id:'diaper-bag',name:'Mochila maternal',category:'Paseo',price:120,emoji:'🎒',image:photo('diaper,bag',17)},
+  {id:'changing-mat',name:'Cambiador portátil',category:'Paseo',price:55,emoji:'👶',image:photo('baby,changing',18)},
+  {id:'teethers',name:'Mordedores',category:'Juguetes',price:30,emoji:'🦷',image:photo('baby,teether,toy',19)},
+  {id:'books',name:'Libritos para bebé',category:'Juguetes',price:35,emoji:'📚',image:photo('baby,books',20)},
+  {id:'activity-gym',name:'Gimnasio de actividades',category:'Juguetes',price:140,emoji:'🧸',image:photo('baby,play,gym',21)}
 ];
 
 const bigGifts = [
-  {id:'stroller',name:'Coche para bebé',goal:600,emoji:'🛒',description:'Para acompañarnos en los paseos y salidas en familia.'},
-  {id:'car-seat',name:'Silla de auto',goal:450,emoji:'🚗',description:'Un básico importante para viajar con el bebé.'},
-  {id:'crib',name:'Cuna / colecho',goal:500,emoji:'🛏️',description:'Para preparar un espacio cómodo para sus primeros meses.'}
+  {id:'stroller',name:'Coche para bebé',goal:600,emoji:'🛒',image:photo('baby,stroller',22),description:'Para acompañarnos en los paseos y salidas en familia.'},
+  {id:'car-seat',name:'Silla de auto',goal:450,emoji:'🚗',image:photo('baby,car,seat',23),description:'Un básico importante para viajar con el bebé.'},
+  {id:'crib',name:'Cuna / colecho',goal:500,emoji:'🛏️',image:photo('baby,crib',24),description:'Para preparar un espacio cómodo para sus primeros meses.'}
 ];
 
-const state = {
-  category:'Todos', price:'all', reservations:{}, contributions:{}, db:null, firebaseReady:false,
-  deviceId:null
-};
-
-const $ = s => document.querySelector(s);
-const currency = n => `S/${Number(n).toFixed(0)}`;
-
-function saveLocal(key,value){ localStorage.setItem(`babyShower:${key}`,JSON.stringify(value)); }
-function loadLocal(key,fallback){ try{return JSON.parse(localStorage.getItem(`babyShower:${key}`)) ?? fallback}catch{return fallback} }
-
-function getOrCreateDeviceId(){
-  const key='babyShower:deviceId';
-  let id=localStorage.getItem(key);
-  if(id) return id;
-  if(window.crypto && crypto.randomUUID) id=crypto.randomUUID();
-  else id=`dev-${Date.now()}-${Math.random().toString(36).slice(2)}-${Math.random().toString(36).slice(2)}`;
-  localStorage.setItem(key,id);
-  return id;
-}
-
-function isMyReservation(record){
-  return !!record && !!record.deviceId && record.deviceId===state.deviceId;
-}
-
-function initEvent(){
-  $('#eventDateLabel').textContent = APP_CONFIG.eventDate ? formatDate(APP_CONFIG.eventDate) : 'Próximamente';
-  $('#detailDate').textContent = APP_CONFIG.eventDate ? formatDate(APP_CONFIG.eventDate) : 'Por confirmar';
-  $('#detailTime').textContent = APP_CONFIG.eventTime || 'Por confirmar';
-  $('#detailPlace').textContent = APP_CONFIG.eventPlace || 'Por confirmar';
-  if(APP_CONFIG.mapsUrl){ $('#mapsLink').href=APP_CONFIG.mapsUrl; $('#mapsLink').classList.remove('hidden'); }
-  startCountdown();
-}
-
-function formatDate(value){
-  const d = new Date(`${value}T12:00:00`);
-  if(Number.isNaN(d.getTime())) return value;
-  return d.toLocaleDateString('es-PE',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-}
-
-function startCountdown(){
-  const note=$('#countdownNote');
-  if(!APP_CONFIG.eventDate){ note.textContent='En cuanto definamos la fecha aparecerá aquí la cuenta regresiva.'; return; }
-  const target=new Date(`${APP_CONFIG.eventDate}T${APP_CONFIG.eventTime || '15:00'}:00`);
-  const tick=()=>{
-    const diff=target-Date.now();
-    if(diff<=0){['days','hours','minutes','seconds'].forEach(id=>$(`#${id}`).textContent='00');note.textContent='¡Llegó el gran día! 💙';return}
-    const d=Math.floor(diff/86400000),h=Math.floor(diff/3600000)%24,m=Math.floor(diff/60000)%60,s=Math.floor(diff/1000)%60;
-    $('#days').textContent=String(d).padStart(2,'0');$('#hours').textContent=String(h).padStart(2,'0');$('#minutes').textContent=String(m).padStart(2,'0');$('#seconds').textContent=String(s).padStart(2,'0');
-    note.textContent='Cada día estamos un poquito más cerca 💙';
-  };
-  tick();setInterval(tick,1000);
-}
-
-async function initData(){
-  state.deviceId=getOrCreateDeviceId();
-  state.reservations=loadLocal('reservations',{});
-  state.contributions=loadLocal('contributions',{});
-  if(APP_CONFIG.firebase && APP_CONFIG.firebase.apiKey){
-    try{
-      firebase.initializeApp(APP_CONFIG.firebase);
-      state.db=firebase.firestore();state.firebaseReady=true;
-      state.db.collection('giftReservations').onSnapshot(s=>{const next={};s.forEach(d=>next[d.id]=d.data());state.reservations=next;renderGifts();});
-      state.db.collection('giftContributions').onSnapshot(s=>{const next={};s.forEach(d=>next[d.id]=d.data());state.contributions=next;renderBigGifts();});
-    }catch(e){console.warn('Firebase no disponible; usando modo local.',e)}
-  }
-  renderCategories();renderGifts();renderBigGifts();
-}
-
-function renderCategories(){
-  const categories=['Todos',...new Set(gifts.map(g=>g.category))];
-  $('#categoryPills').innerHTML=categories.map(c=>`<button class="pill ${c===state.category?'active':''}" data-category="${c}">${c}</button>`).join('');
-  document.querySelectorAll('[data-category]').forEach(b=>b.addEventListener('click',()=>{state.category=b.dataset.category;renderCategories();renderGifts()}));
-}
-
-function matchesPrice(g){
-  if(state.price==='low')return g.price<=50;
-  if(state.price==='mid')return g.price>50&&g.price<=150;
-  if(state.price==='high')return g.price>150;
-  return true;
-}
-
-function renderGifts(){
-  const filtered=gifts.filter(g=>(state.category==='Todos'||g.category===state.category)&&matchesPrice(g));
-  const reservedCount=Object.keys(state.reservations).length;
-  $('#giftStats').textContent=`${gifts.length-reservedCount} regalos disponibles · ${reservedCount} reservados`;
-  $('#giftGrid').innerHTML=filtered.map(g=>{
-    const record=state.reservations[g.id];
-    const reserved=!!record;
-    const mine=isMyReservation(record);
-    const badge=mine?'Tu reserva':reserved?'Reservado':'Disponible';
-    const button=mine
-      ? `<button class="btn secondary" data-release="${g.id}">Cambiar / liberar reserva</button>`
-      : `<button class="btn ${reserved?'secondary':'primary'}" data-gift="${g.id}" ${reserved?'disabled':''}>${reserved?'Ya fue elegido':'Yo regalo esto 💙'}</button>`;
-    return `<article class="gift-card">
-      <div class="gift-thumb">${g.emoji}</div>
-      <div class="gift-body">
-        <div class="gift-top"><h3>${g.name}</h3><span class="badge ${reserved?'reserved':''}">${badge}</span></div>
-        <div class="gift-meta"><span>${g.category}</span><strong>${currency(g.price)} aprox.</strong></div>
-        ${button}
-      </div>
-    </article>`
-  }).join('') || '<p>No hay regalos con estos filtros.</p>';
-  document.querySelectorAll('[data-gift]').forEach(b=>b.addEventListener('click',()=>openGiftDialog(b.dataset.gift)));
-  document.querySelectorAll('[data-release]').forEach(b=>b.addEventListener('click',()=>openReleaseDialog(b.dataset.release)));
-}
-
-function openGiftDialog(id){
-  const gift=gifts.find(g=>g.id===id);if(!gift)return;
-  if(state.reservations[id]){showToast('Ese regalo ya está reservado.');return;}
-  $('#dialogContent').innerHTML=`<div style="font-size:3rem">${gift.emoji}</div><h3 class="dialog-title">${gift.name}</h3><p class="dialog-copy">Escribe tu nombre para reservarlo. Esta reserva quedará vinculada a este dispositivo, así podrás cambiarla o liberarla desde aquí.</p><form class="dialog-form" id="reserveForm"><input id="reserveName" placeholder="Tu nombre" required autocomplete="name"><button class="btn primary full">Reservar regalo 💙</button></form>`;
-  $('#giftDialog').showModal();
-  $('#reserveForm').addEventListener('submit',async e=>{e.preventDefault();await reserveGift(id,$('#reserveName').value.trim())});
-}
-
-async function reserveGift(id,name){
-  if(!name)return;
-  const record={name,deviceId:state.deviceId,createdAt:new Date().toISOString()};
-  try{
-    if(state.firebaseReady){
-      const ref=state.db.collection('giftReservations').doc(id);
-      await state.db.runTransaction(async tx=>{const snap=await tx.get(ref);if(snap.exists)throw new Error('reserved');tx.set(ref,record)});
-    }else{
-      if(state.reservations[id])throw new Error('reserved');
-      state.reservations[id]=record;saveLocal('reservations',state.reservations)
-    }
-    $('#giftDialog').close();renderGifts();showToast('¡Regalo reservado en este dispositivo! 💙');
-  }catch(e){showToast('Ese regalo acaba de ser reservado por otra persona.');}
-}
-
-function openReleaseDialog(id){
-  const gift=gifts.find(g=>g.id===id);const record=state.reservations[id];
-  if(!gift||!isMyReservation(record)){showToast('Solo el dispositivo que hizo la reserva puede cambiarla.');return;}
-  $('#dialogContent').innerHTML=`<div style="font-size:3rem">${gift.emoji}</div><h3 class="dialog-title">Tu reserva: ${gift.name}</h3><p class="dialog-copy">Esta reserva pertenece a este dispositivo. Si la liberas, el regalo volverá a estar disponible para los demás invitados.</p><div class="dialog-form"><button class="btn primary full" id="keepReservation">Mantener mi reserva</button><button class="btn secondary full" id="confirmRelease">Liberar regalo</button></div>`;
-  $('#giftDialog').showModal();
-  $('#keepReservation').addEventListener('click',()=>$('#giftDialog').close());
-  $('#confirmRelease').addEventListener('click',()=>releaseGift(id));
-}
-
-async function releaseGift(id){
-  try{
-    if(state.firebaseReady){
-      const ref=state.db.collection('giftReservations').doc(id);
-      await state.db.runTransaction(async tx=>{
-        const snap=await tx.get(ref);
-        if(!snap.exists) return;
-        const data=snap.data();
-        if(!data.deviceId || data.deviceId!==state.deviceId) throw new Error('not-owner');
-        tx.delete(ref);
-      });
-    }else{
-      const record=state.reservations[id];
-      if(!isMyReservation(record)) throw new Error('not-owner');
-      delete state.reservations[id];saveLocal('reservations',state.reservations);
-    }
-    $('#giftDialog').close();renderGifts();showToast('Reserva liberada. Ya puedes elegir otro regalo 💙');
-  }catch(e){
-    if(e.message==='not-owner') showToast('Solo el dispositivo que reservó este regalo puede liberarlo.');
-    else showToast('No pudimos liberar la reserva. Intenta otra vez.');
-  }
-}
-
-function renderBigGifts(){
-  $('#bigGifts').innerHTML=bigGifts.map(g=>{
-    const data=state.contributions[g.id]||{total:0};const total=Math.min(Number(data.total||0),g.goal);const pct=Math.min(100,Math.round(total/g.goal*100));
-    return `<article class="big-card"><div style="font-size:2rem">${g.emoji}</div><h3>${g.name}</h3><p>${g.description}</p><div class="progress"><span style="width:${pct}%"></span></div><div class="progress-meta"><span>${currency(total)} reunidos</span><span>Meta ${currency(g.goal)}</span></div><button class="btn secondary full" data-contribute="${g.id}">💙 Quiero aportar</button></article>`
-  }).join('');
-  document.querySelectorAll('[data-contribute]').forEach(b=>b.addEventListener('click',()=>openContributionDialog(b.dataset.contribute)));
-}
-
-function openContributionDialog(id){
-  const gift=bigGifts.find(g=>g.id===id);if(!gift)return;
-  $('#dialogContent').innerHTML=`<div style="font-size:3rem">${gift.emoji}</div><h3 class="dialog-title">Aportar para ${gift.name}</h3><p class="dialog-copy">Registra cuánto deseas aportar. Los papás podrán coordinar contigo la entrega.</p><form class="dialog-form" id="contributionForm"><input id="contributorName" placeholder="Tu nombre" required><input id="contributionAmount" type="number" min="1" max="${gift.goal}" placeholder="Monto en soles" required><button class="btn primary full">Registrar aporte 💙</button></form>`;
-  $('#giftDialog').showModal();
-  $('#contributionForm').addEventListener('submit',async e=>{e.preventDefault();await addContribution(id,$('#contributorName').value.trim(),Number($('#contributionAmount').value))});
-}
-
-async function addContribution(id,name,amount){
-  if(!name||!amount||amount<1)return;
-  try{
-    if(state.firebaseReady){
-      const ref=state.db.collection('giftContributions').doc(id);
-      await state.db.runTransaction(async tx=>{const snap=await tx.get(ref);const current=snap.exists?Number(snap.data().total||0):0;tx.set(ref,{total:current+amount,lastContributor:name,updatedAt:new Date().toISOString()},{merge:true})});
-    }else{
-      const current=Number(state.contributions[id]?.total||0);state.contributions[id]={total:current+amount,lastContributor:name};saveLocal('contributions',state.contributions);
-    }
-    $('#giftDialog').close();renderBigGifts();showToast('¡Aporte registrado! Muchas gracias 💙');
-  }catch(e){showToast('No pudimos registrar el aporte. Intenta otra vez.');}
-}
-
-$('#priceFilter').addEventListener('change',e=>{state.price=e.target.value;renderGifts()});
-$('#dialogClose').addEventListener('click',()=>$('#giftDialog').close());
-
-$('#rsvpForm').addEventListener('submit',async e=>{
-  e.preventDefault();
-  const data={name:$('#guestName').value.trim(),attendance:$('#guestAttendance').value,count:Number($('#guestCount').value),message:$('#guestMessage').value.trim(),createdAt:new Date().toISOString()};
-  if(!data.name)return;
-  const status=$('#rsvpStatus');status.textContent='Guardando…';
-  try{
-    if(state.firebaseReady){await state.db.collection('rsvp').add(data)}
-    else{const all=loadLocal('rsvp',[]);all.push(data);saveLocal('rsvp',all)}
-    status.textContent=data.attendance==='yes'?'¡Gracias! Nos encantará verte 💙':'Gracias por avisarnos 💙';
-    e.target.reset();
-  }catch{status.textContent='No pudimos guardar tu confirmación. Intenta otra vez.'}
-});
-
-function showToast(message){const el=$('#toast');el.textContent=message;el.classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>el.classList.remove('show'),2800)}
-
-initEvent();initData();
+const state = {category:'Todos',price:'all',reservations:{},contributions:{},db:null,firebaseReady:false,deviceId:null};
+const $=s=>document.querySelector(s);const currency=n=>`S/${Number(n).toFixed(0)}`;
+function saveLocal(key,value){localStorage.setItem(`babyShower:${key}`,JSON.stringify(value))}function loadLocal(key,fallback){try{return JSON.parse(localStorage.getItem(`babyShower:${key}`))??fallback}catch{return fallback}}
+function getOrCreateDeviceId(){const key='babyShower:deviceId';let id=localStorage.getItem(key);if(id)return id;if(window.crypto&&crypto.randomUUID)id=crypto.randomUUID();else id=`dev-${Date.now()}-${Math.random().toString(36).slice(2)}-${Math.random().toString(36).slice(2)}`;localStorage.setItem(key,id);return id}function isMyReservation(record){return!!record&&!!record.deviceId&&record.deviceId===state.deviceId}
+function img(g,cls='gift-photo'){return `<img class="${cls}" src="${g.image}" alt="${g.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><div class="photo-fallback" style="display:none">${g.emoji}</div>`}
+function initEvent(){$('#eventDateLabel').textContent=APP_CONFIG.eventDate?formatDate(APP_CONFIG.eventDate):'Próximamente';$('#detailDate').textContent=APP_CONFIG.eventDate?formatDate(APP_CONFIG.eventDate):'Por confirmar';$('#detailTime').textContent=APP_CONFIG.eventTime||'Por confirmar';$('#detailPlace').textContent=APP_CONFIG.eventPlace||'Por confirmar';if(APP_CONFIG.mapsUrl){$('#mapsLink').href=APP_CONFIG.mapsUrl;$('#mapsLink').classList.remove('hidden')}startCountdown()}
+function formatDate(value){const d=new Date(`${value}T12:00:00`);if(Number.isNaN(d.getTime()))return value;return d.toLocaleDateString('es-PE',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}
+function startCountdown(){const note=$('#countdownNote');if(!APP_CONFIG.eventDate){note.textContent='En cuanto definamos la fecha aparecerá aquí la cuenta regresiva.';return}const target=new Date(`${APP_CONFIG.eventDate}T${APP_CONFIG.eventTime||'15:00'}:00`);const tick=()=>{const diff=target-Date.now();if(diff<=0){['days','hours','minutes','seconds'].forEach(id=>$(`#${id}`).textContent='00');note.textContent='¡Llegó el gran día! 💙';return}const d=Math.floor(diff/86400000),h=Math.floor(diff/3600000)%24,m=Math.floor(diff/60000)%60,s=Math.floor(diff/1000)%60;$('#days').textContent=String(d).padStart(2,'0');$('#hours').textContent=String(h).padStart(2,'0');$('#minutes').textContent=String(m).padStart(2,'0');$('#seconds').textContent=String(s).padStart(2,'0');note.textContent='Cada día estamos un poquito más cerca 💙'};tick();setInterval(tick,1000)}
+async function initData(){state.deviceId=getOrCreateDeviceId();state.reservations=loadLocal('reservations',{});state.contributions=loadLocal('contributions',{});if(APP_CONFIG.firebase&&APP_CONFIG.firebase.apiKey){try{firebase.initializeApp(APP_CONFIG.firebase);state.db=firebase.firestore();state.firebaseReady=true;state.db.collection('giftReservations').onSnapshot(s=>{const next={};s.forEach(d=>next[d.id]=d.data());state.reservations=next;renderGifts()});state.db.collection('giftContributions').onSnapshot(s=>{const next={};s.forEach(d=>next[d.id]=d.data());state.contributions=next;renderBigGifts()})}catch(e){console.warn('Firebase no disponible; usando modo local.',e)}}renderCategories();renderGifts();renderBigGifts()}
+function renderCategories(){const categories=['Todos',...new Set(gifts.map(g=>g.category))];$('#categoryPills').innerHTML=categories.map(c=>`<button class="pill ${c===state.category?'active':''}" data-category="${c}">${c}</button>`).join('');document.querySelectorAll('[data-category]').forEach(b=>b.addEventListener('click',()=>{state.category=b.dataset.category;renderCategories();renderGifts()}))}
+function matchesPrice(g){if(state.price==='low')return g.price<=50;if(state.price==='mid')return g.price>50&&g.price<=150;if(state.price==='high')return g.price>150;return true}
+function renderGifts(){const filtered=gifts.filter(g=>(state.category==='Todos'||g.category===state.category)&&matchesPrice(g));const reservedCount=Object.keys(state.reservations).length;$('#giftStats').textContent=`${gifts.length-reservedCount} regalos disponibles · ${reservedCount} reservados`;$('#giftGrid').innerHTML=filtered.map(g=>{const record=state.reservations[g.id],reserved=!!record,mine=isMyReservation(record),badge=mine?'Tu reserva':reserved?'Reservado':'Disponible';const button=mine?`<button class="btn secondary" data-release="${g.id}">Cambiar / liberar reserva</button>`:`<button class="btn ${reserved?'secondary':'primary'}" data-gift="${g.id}" ${reserved?'disabled':''}>${reserved?'Ya fue elegido':'Yo regalo esto 💙'}</button>`;return `<article class="gift-card"><div class="gift-thumb">${img(g)}</div><div class="gift-body"><div class="gift-top"><h3>${g.name}</h3><span class="badge ${reserved?'reserved':''}">${badge}</span></div><div class="gift-meta"><span>${g.category}</span><strong>${currency(g.price)} aprox.</strong></div>${button}</div></article>`}).join('')||'<p>No hay regalos con estos filtros.</p>';document.querySelectorAll('[data-gift]').forEach(b=>b.addEventListener('click',()=>openGiftDialog(b.dataset.gift)));document.querySelectorAll('[data-release]').forEach(b=>b.addEventListener('click',()=>openReleaseDialog(b.dataset.release)))}
+function openGiftDialog(id){const gift=gifts.find(g=>g.id===id);if(!gift)return;if(state.reservations[id]){showToast('Ese regalo ya está reservado.');return}$('#dialogContent').innerHTML=`<div class="dialog-product-photo">${img(gift,'gift-photo')}</div><h3 class="dialog-title">${gift.name}</h3><p class="dialog-copy">Escribe tu nombre para reservarlo. Esta reserva quedará vinculada a este dispositivo, así podrás cambiarla o liberarla desde aquí.</p><form class="dialog-form" id="reserveForm"><input id="reserveName" placeholder="Tu nombre" required autocomplete="name"><button class="btn primary full">Reservar regalo 💙</button></form>`;$('#giftDialog').showModal();$('#reserveForm').addEventListener('submit',async e=>{e.preventDefault();await reserveGift(id,$('#reserveName').value.trim())})}
+async function reserveGift(id,name){if(!name)return;const record={name,deviceId:state.deviceId,createdAt:new Date().toISOString()};try{if(state.firebaseReady){const ref=state.db.collection('giftReservations').doc(id);await state.db.runTransaction(async tx=>{const snap=await tx.get(ref);if(snap.exists)throw new Error('reserved');tx.set(ref,record)})}else{if(state.reservations[id])throw new Error('reserved');state.reservations[id]=record;saveLocal('reservations',state.reservations)}$('#giftDialog').close();renderGifts();showToast('¡Regalo reservado en este dispositivo! 💙')}catch(e){showToast('Ese regalo acaba de ser reservado por otra persona.')}}
+function openReleaseDialog(id){const gift=gifts.find(g=>g.id===id),record=state.reservations[id];if(!gift||!isMyReservation(record)){showToast('Solo el dispositivo que hizo la reserva puede cambiarla.');return}$('#dialogContent').innerHTML=`<div class="dialog-product-photo">${img(gift,'gift-photo')}</div><h3 class="dialog-title">Tu reserva: ${gift.name}</h3><p class="dialog-copy">Esta reserva pertenece a este dispositivo. Si la liberas, el regalo volverá a estar disponible para los demás invitados.</p><div class="dialog-form"><button class="btn primary full" id="keepReservation">Mantener mi reserva</button><button class="btn secondary full" id="confirmRelease">Liberar regalo</button></div>`;$('#giftDialog').showModal();$('#keepReservation').addEventListener('click',()=>$('#giftDialog').close());$('#confirmRelease').addEventListener('click',()=>releaseGift(id))}
+async function releaseGift(id){try{if(state.firebaseReady){const ref=state.db.collection('giftReservations').doc(id);await state.db.runTransaction(async tx=>{const snap=await tx.get(ref);if(!snap.exists)return;const data=snap.data();if(!data.deviceId||data.deviceId!==state.deviceId)throw new Error('not-owner');tx.delete(ref)})}else{const record=state.reservations[id];if(!isMyReservation(record))throw new Error('not-owner');delete state.reservations[id];saveLocal('reservations',state.reservations)}$('#giftDialog').close();renderGifts();showToast('Reserva liberada. Ya puedes elegir otro regalo 💙')}catch(e){if(e.message==='not-owner')showToast('Solo el dispositivo que reservó este regalo puede liberarlo.');else showToast('No pudimos liberar la reserva. Intenta otra vez.')}}
+function renderBigGifts(){$('#bigGifts').innerHTML=bigGifts.map(g=>{const data=state.contributions[g.id]||{total:0},total=Math.min(Number(data.total||0),g.goal),pct=Math.min(100,Math.round(total/g.goal*100));return `<article class="big-card"><div class="big-photo">${img(g)}</div><h3>${g.name}</h3><p>${g.description}</p><div class="progress"><span style="width:${pct}%"></span></div><div class="progress-meta"><span>${currency(total)} reunidos</span><span>Meta ${currency(g.goal)}</span></div><button class="btn secondary full" data-contribute="${g.id}">💙 Quiero aportar</button></article>`}).join('');document.querySelectorAll('[data-contribute]').forEach(b=>b.addEventListener('click',()=>openContributionDialog(b.dataset.contribute)))}
+function openContributionDialog(id){const gift=bigGifts.find(g=>g.id===id);if(!gift)return;$('#dialogContent').innerHTML=`<div class="dialog-product-photo">${img(gift,'gift-photo')}</div><h3 class="dialog-title">Aportar para ${gift.name}</h3><p class="dialog-copy">Registra cuánto deseas aportar. Los papás podrán coordinar contigo la entrega.</p><form class="dialog-form" id="contributionForm"><input id="contributorName" placeholder="Tu nombre" required><input id="contributionAmount" type="number" min="1" max="${gift.goal}" placeholder="Monto en soles" required><button class="btn primary full">Registrar aporte 💙</button></form>`;$('#giftDialog').showModal();$('#contributionForm').addEventListener('submit',async e=>{e.preventDefault();await addContribution(id,$('#contributorName').value.trim(),Number($('#contributionAmount').value))})}
+async function addContribution(id,name,amount){if(!name||!amount||amount<1)return;try{if(state.firebaseReady){const ref=state.db.collection('giftContributions').doc(id);await state.db.runTransaction(async tx=>{const snap=await tx.get(ref);const current=snap.exists?Number(snap.data().total||0):0;tx.set(ref,{total:current+amount,lastContributor:name,updatedAt:new Date().toISOString()},{merge:true})})}else{const current=Number(state.contributions[id]?.total||0);state.contributions[id]={total:current+amount,lastContributor:name};saveLocal('contributions',state.contributions)}$('#giftDialog').close();renderBigGifts();showToast('¡Aporte registrado! Muchas gracias 💙')}catch(e){showToast('No pudimos registrar el aporte. Intenta otra vez.')}}
+$('#priceFilter').addEventListener('change',e=>{state.price=e.target.value;renderGifts()});$('#dialogClose').addEventListener('click',()=>$('#giftDialog').close());$('#rsvpForm').addEventListener('submit',async e=>{e.preventDefault();const data={name:$('#guestName').value.trim(),attendance:$('#guestAttendance').value,count:Number($('#guestCount').value),message:$('#guestMessage').value.trim(),createdAt:new Date().toISOString()};if(!data.name)return;const status=$('#rsvpStatus');status.textContent='Guardando…';try{if(state.firebaseReady)await state.db.collection('rsvp').add(data);else{const all=loadLocal('rsvp',[]);all.push(data);saveLocal('rsvp',all)}status.textContent=data.attendance==='yes'?'¡Gracias! Nos encantará verte 💙':'Gracias por avisarnos 💙';e.target.reset()}catch{status.textContent='No pudimos guardar tu confirmación. Intenta otra vez.'}});function showToast(message){const el=$('#toast');el.textContent=message;el.classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>el.classList.remove('show'),2800)}initEvent();initData();
