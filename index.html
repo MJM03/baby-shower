@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#eaf4ff" />
+  <meta name="description" content="Invitación digital y lista de regalos para nuestro baby shower." />
+  <title>Baby Shower 💙</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+
+  <header class="hero" id="inicio">
+    <nav class="nav shell">
+      <a class="brand" href="#inicio" aria-label="Ir al inicio">🧸 <span>Baby Shower</span></a>
+      <a class="nav-gift" href="#regalos">Ver regalos</a>
+    </nav>
+
+    <div class="hero-content shell">
+      <div class="eyebrow">Una pequeña aventura está por comenzar</div>
+      <h1>¡Te esperamos en<br><em>nuestro Baby Shower!</em></h1>
+      <p class="hero-copy">Estamos preparando todo con mucho amor para celebrar juntos la llegada de nuestro pequeño. Tu compañía será el mejor regalo. 💙</p>
+
+      <div class="hero-actions">
+        <a class="btn primary" href="#confirmar">Confirmar asistencia</a>
+        <a class="btn secondary" href="#regalos">🎁 Lista de regalos</a>
+      </div>
+
+      <div class="floating-card date-card">
+        <span class="mini-icon">📅</span>
+        <div><small>Fecha</small><strong id="eventDateLabel">Próximamente</strong></div>
+      </div>
+      <div class="floating-card heart-card" aria-hidden="true">💙</div>
+    </div>
+
+    <div class="cloud cloud-one"></div>
+    <div class="cloud cloud-two"></div>
+  </header>
+
+  <main>
+    <section class="countdown-section shell" aria-label="Cuenta regresiva">
+      <div class="section-kicker">Falta muy poquito</div>
+      <h2>Contando los días para celebrar</h2>
+      <div class="countdown" id="countdown">
+        <div class="timebox"><strong id="days">--</strong><span>Días</span></div>
+        <div class="timebox"><strong id="hours">--</strong><span>Horas</span></div>
+        <div class="timebox"><strong id="minutes">--</strong><span>Min</span></div>
+        <div class="timebox"><strong id="seconds">--</strong><span>Seg</span></div>
+      </div>
+      <p class="countdown-note" id="countdownNote">En cuanto definamos la fecha aparecerá aquí la cuenta regresiva.</p>
+    </section>
+
+    <section class="details-section">
+      <div class="shell">
+        <div class="section-kicker">Guarda la fecha</div>
+        <h2>Detalles de la celebración</h2>
+        <div class="details-grid">
+          <article class="detail-card">
+            <div class="detail-icon">📅</div>
+            <h3>Fecha</h3>
+            <p id="detailDate">Por confirmar</p>
+          </article>
+          <article class="detail-card">
+            <div class="detail-icon">🕒</div>
+            <h3>Hora</h3>
+            <p id="detailTime">Por confirmar</p>
+          </article>
+          <article class="detail-card">
+            <div class="detail-icon">📍</div>
+            <h3>Lugar</h3>
+            <p id="detailPlace">Lima, Perú</p>
+            <a id="mapsLink" class="text-link hidden" href="#" target="_blank" rel="noopener">Abrir en Maps →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="gift-section shell" id="regalos">
+      <div class="section-kicker">Un detalle para el bebé</div>
+      <h2>Lista de regalos</h2>
+      <p class="section-intro">Si deseas regalarnos algo, preparamos una lista de cosas que nos serán muy útiles. Elige una opción disponible para evitar regalos repetidos.</p>
+
+      <div class="toolbar">
+        <div class="category-pills" id="categoryPills"></div>
+        <select id="priceFilter" aria-label="Filtrar por precio">
+          <option value="all">Todos los precios</option>
+          <option value="low">Hasta S/50</option>
+          <option value="mid">S/51 – S/150</option>
+          <option value="high">Más de S/150</option>
+        </select>
+      </div>
+
+      <div class="gift-stats" id="giftStats"></div>
+      <div class="gift-grid" id="giftGrid"></div>
+    </section>
+
+    <section class="big-gifts-section">
+      <div class="shell">
+        <div class="section-kicker">Regalos grandes</div>
+        <h2>También puedes aportar entre varios</h2>
+        <p class="section-intro">Para las cosas más grandes, puedes registrar un aporte sin necesidad de cubrir el regalo completo.</p>
+        <div class="big-gifts" id="bigGifts"></div>
+      </div>
+    </section>
+
+    <section class="rsvp-section" id="confirmar">
+      <div class="shell rsvp-wrap">
+        <div class="rsvp-copy">
+          <div class="section-kicker">Nos encantará verte</div>
+          <h2>Confirma tu asistencia</h2>
+          <p>Déjanos tus datos para poder organizar todo mejor.</p>
+        </div>
+        <form id="rsvpForm" class="rsvp-form">
+          <label>Tu nombre
+            <input id="guestName" name="name" type="text" autocomplete="name" placeholder="Nombre y apellido" required />
+          </label>
+          <label>¿Podrás acompañarnos?
+            <select id="guestAttendance" name="attendance" required>
+              <option value="yes">💙 Sí, ahí estaré</option>
+              <option value="no">No podré asistir</option>
+            </select>
+          </label>
+          <label>¿Cuántas personas irán contigo?
+            <select id="guestCount" name="count">
+              <option value="1">Iré solo/a</option>
+              <option value="2">2 personas</option>
+              <option value="3">3 personas</option>
+              <option value="4">4 personas</option>
+            </select>
+          </label>
+          <label>Mensaje para los papás <span>(opcional)</span>
+            <textarea id="guestMessage" name="message" rows="3" placeholder="Un mensajito bonito…"></textarea>
+          </label>
+          <button class="btn primary full" type="submit">Confirmar asistencia 💙</button>
+          <p class="form-status" id="rsvpStatus" role="status"></p>
+        </form>
+      </div>
+    </section>
+
+    <section class="closing shell">
+      <div class="bear">🧸</div>
+      <h2>Gracias por ser parte de este momento</h2>
+      <p>Tu cariño y tu compañía harán este día todavía más especial.</p>
+      <div class="tiny-hearts">💙 · ☁️ · 💙</div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell">Hecho con mucho amor para nuestro bebé 💙</div>
+  </footer>
+
+  <dialog id="giftDialog">
+    <button class="dialog-close" id="dialogClose" aria-label="Cerrar">×</button>
+    <div id="dialogContent"></div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
