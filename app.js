@@ -38,7 +38,8 @@ const bigGifts = [
 ];
 
 const state = {
-  category:'Todos', price:'all', reservations:{}, contributions:{}, db:null, firebaseReady:false
+  category:'Todos', price:'all', reservations:{}, contributions:{}, db:null, firebaseReady:false,
+  deviceId:null
 };
 
 const $ = s => document.querySelector(s);
@@ -46,6 +47,20 @@ const currency = n => `S/${Number(n).toFixed(0)}`;
 
 function saveLocal(key,value){ localStorage.setItem(`babyShower:${key}`,JSON.stringify(value)); }
 function loadLocal(key,fallback){ try{return JSON.parse(localStorage.getItem(`babyShower:${key}`)) ?? fallback}catch{return fallback} }
+
+function getOrCreateDeviceId(){
+  const key='babyShower:deviceId';
+  let id=localStorage.getItem(key);
+  if(id) return id;
+  if(window.crypto && crypto.randomUUID) id=crypto.randomUUID();
+  else id=`dev-${Date.now()}-${Math.random().toString(36).slice(2)}-${Math.random().toString(36).slice(2)}`;
+  localStorage.setItem(key,id);
+  return id;
+}
+
+function isMyReservation(record){
+  return !!record && !!record.deviceId && record.deviceId===state.deviceId;
+}
 
 function initEvent(){
   $('#eventDateLabel').textContent = APP_CONFIG.eventDate ? formatDate(APP_CONFIG.eventDate) : 'Próximamente';
@@ -77,6 +92,7 @@ function startCountdown(){
 }
 
 async function initData(){
+  state.deviceId=getOrCreateDeviceId();
   state.reservations=loadLocal('reservations',{});
   state.contributions=loadLocal('contributions',{});
   if(APP_CONFIG.firebase && APP_CONFIG.firebase.apiKey){
@@ -108,36 +124,79 @@ function renderGifts(){
   const reservedCount=Object.keys(state.reservations).length;
   $('#giftStats').textContent=`${gifts.length-reservedCount} regalos disponibles · ${reservedCount} reservados`;
   $('#giftGrid').innerHTML=filtered.map(g=>{
-    const reserved=!!state.reservations[g.id];
+    const record=state.reservations[g.id];
+    const reserved=!!record;
+    const mine=isMyReservation(record);
+    const badge=mine?'Tu reserva':reserved?'Reservado':'Disponible';
+    const button=mine
+      ? `<button class="btn secondary" data-release="${g.id}">Cambiar / liberar reserva</button>`
+      : `<button class="btn ${reserved?'secondary':'primary'}" data-gift="${g.id}" ${reserved?'disabled':''}>${reserved?'Ya fue elegido':'Yo regalo esto 💙'}</button>`;
     return `<article class="gift-card">
       <div class="gift-thumb">${g.emoji}</div>
       <div class="gift-body">
-        <div class="gift-top"><h3>${g.name}</h3><span class="badge ${reserved?'reserved':''}">${reserved?'Reservado':'Disponible'}</span></div>
+        <div class="gift-top"><h3>${g.name}</h3><span class="badge ${reserved?'reserved':''}">${badge}</span></div>
         <div class="gift-meta"><span>${g.category}</span><strong>${currency(g.price)} aprox.</strong></div>
-        <button class="btn ${reserved?'secondary':'primary'}" data-gift="${g.id}" ${reserved?'disabled':''}>${reserved?'Ya fue elegido':'Yo regalo esto 💙'}</button>
+        ${button}
       </div>
     </article>`
   }).join('') || '<p>No hay regalos con estos filtros.</p>';
   document.querySelectorAll('[data-gift]').forEach(b=>b.addEventListener('click',()=>openGiftDialog(b.dataset.gift)));
+  document.querySelectorAll('[data-release]').forEach(b=>b.addEventListener('click',()=>openReleaseDialog(b.dataset.release)));
 }
 
 function openGiftDialog(id){
   const gift=gifts.find(g=>g.id===id);if(!gift)return;
-  $('#dialogContent').innerHTML=`<div style="font-size:3rem">${gift.emoji}</div><h3 class="dialog-title">${gift.name}</h3><p class="dialog-copy">Gracias por querer tener este detalle con nosotros. Escribe tu nombre para reservarlo y evitar que otra persona elija el mismo regalo.</p><form class="dialog-form" id="reserveForm"><input id="reserveName" placeholder="Tu nombre" required><button class="btn primary full">Reservar regalo 💙</button></form>`;
+  if(state.reservations[id]){showToast('Ese regalo ya está reservado.');return;}
+  $('#dialogContent').innerHTML=`<div style="font-size:3rem">${gift.emoji}</div><h3 class="dialog-title">${gift.name}</h3><p class="dialog-copy">Escribe tu nombre para reservarlo. Esta reserva quedará vinculada a este dispositivo, así podrás cambiarla o liberarla desde aquí.</p><form class="dialog-form" id="reserveForm"><input id="reserveName" placeholder="Tu nombre" required autocomplete="name"><button class="btn primary full">Reservar regalo 💙</button></form>`;
   $('#giftDialog').showModal();
   $('#reserveForm').addEventListener('submit',async e=>{e.preventDefault();await reserveGift(id,$('#reserveName').value.trim())});
 }
 
 async function reserveGift(id,name){
   if(!name)return;
-  const record={name,createdAt:new Date().toISOString()};
+  const record={name,deviceId:state.deviceId,createdAt:new Date().toISOString()};
   try{
     if(state.firebaseReady){
       const ref=state.db.collection('giftReservations').doc(id);
       await state.db.runTransaction(async tx=>{const snap=await tx.get(ref);if(snap.exists)throw new Error('reserved');tx.set(ref,record)});
-    }else{state.reservations[id]=record;saveLocal('reservations',state.reservations)}
-    $('#giftDialog').close();renderGifts();showToast('¡Regalo reservado! Gracias 💙');
+    }else{
+      if(state.reservations[id])throw new Error('reserved');
+      state.reservations[id]=record;saveLocal('reservations',state.reservations)
+    }
+    $('#giftDialog').close();renderGifts();showToast('¡Regalo reservado en este dispositivo! 💙');
   }catch(e){showToast('Ese regalo acaba de ser reservado por otra persona.');}
+}
+
+function openReleaseDialog(id){
+  const gift=gifts.find(g=>g.id===id);const record=state.reservations[id];
+  if(!gift||!isMyReservation(record)){showToast('Solo el dispositivo que hizo la reserva puede cambiarla.');return;}
+  $('#dialogContent').innerHTML=`<div style="font-size:3rem">${gift.emoji}</div><h3 class="dialog-title">Tu reserva: ${gift.name}</h3><p class="dialog-copy">Esta reserva pertenece a este dispositivo. Si la liberas, el regalo volverá a estar disponible para los demás invitados.</p><div class="dialog-form"><button class="btn primary full" id="keepReservation">Mantener mi reserva</button><button class="btn secondary full" id="confirmRelease">Liberar regalo</button></div>`;
+  $('#giftDialog').showModal();
+  $('#keepReservation').addEventListener('click',()=>$('#giftDialog').close());
+  $('#confirmRelease').addEventListener('click',()=>releaseGift(id));
+}
+
+async function releaseGift(id){
+  try{
+    if(state.firebaseReady){
+      const ref=state.db.collection('giftReservations').doc(id);
+      await state.db.runTransaction(async tx=>{
+        const snap=await tx.get(ref);
+        if(!snap.exists) return;
+        const data=snap.data();
+        if(!data.deviceId || data.deviceId!==state.deviceId) throw new Error('not-owner');
+        tx.delete(ref);
+      });
+    }else{
+      const record=state.reservations[id];
+      if(!isMyReservation(record)) throw new Error('not-owner');
+      delete state.reservations[id];saveLocal('reservations',state.reservations);
+    }
+    $('#giftDialog').close();renderGifts();showToast('Reserva liberada. Ya puedes elegir otro regalo 💙');
+  }catch(e){
+    if(e.message==='not-owner') showToast('Solo el dispositivo que reservó este regalo puede liberarlo.');
+    else showToast('No pudimos liberar la reserva. Intenta otra vez.');
+  }
 }
 
 function renderBigGifts(){
